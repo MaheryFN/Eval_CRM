@@ -31,8 +31,10 @@
                         <i class="fas fa-cogs"></i>
                         <span class="hide-menu">Settings</span>
                     </a>
+
                     <ul class="collapse">
                         <li><a th:href="${home + 'employee/settings/google-services'}">Google setting</a></li>
+                        <!-- AJOUTER CETTE LIGNE POUR LA RÉINITIALISATION DE DB -->
                         <li>
                             <a href="javascript:void(0)" class="has-arrow">Notification setting</a>
                             <ul class="collapse">
@@ -40,6 +42,11 @@
                                 <li><a th:href="${home + 'employee/settings/email/lead'}">Lead Settings</a></li>
                                 <li><a th:href="${home + 'employee/settings/email/ticket'}">Ticket Settings</a></li>
                             </ul>
+                        </li>
+                        <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                            <a th:href="${home + 'data/manager/database/reset'}">
+                                <i class="fas fa-database"></i>  Database Reset
+                            </a>
                         </li>
                     </ul>
                 </li>

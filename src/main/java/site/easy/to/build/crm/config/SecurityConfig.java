@@ -24,18 +24,18 @@ import java.util.Optional;
 
 @Configuration
 public class SecurityConfig {
-
-
+    
+    
     private final OAuthLoginSuccessHandler oAuth2LoginSuccessHandler;
-
+    
     private final CustomOAuth2UserService oauthUserService;
-
+    
     private final CrmUserDetails crmUserDetails;
-
+    
     private final CustomerUserDetails customerUserDetails;
-
+    
     private final Environment environment;
-
+    
     @Autowired
     public SecurityConfig(OAuthLoginSuccessHandler oAuth2LoginSuccessHandler, CustomOAuth2UserService oauthUserService, CrmUserDetails crmUserDetails,
                           CustomerUserDetails customerUserDetails, Environment environment) {
@@ -45,103 +45,105 @@ public class SecurityConfig {
         this.customerUserDetails = customerUserDetails;
         this.environment = environment;
     }
-
+    
     @Bean
     @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+        
         HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
         httpSessionCsrfTokenRepository.setParameterName("csrf");
-
+        
         http.csrf((csrf) -> csrf
-                .csrfTokenRepository(httpSessionCsrfTokenRepository)
+            .csrfTokenRepository(httpSessionCsrfTokenRepository)
+            .ignoringRequestMatchers("/ajax/**", "data/**") // Désactiver CSRF pour les requêtes AJAX
         );
-
+        
         http.
-                authorizeHttpRequests((authorize) -> authorize
-
-                        .requestMatchers("/register/**").permitAll()
-                        .requestMatchers("/set-employee-password/**").permitAll()
-                        .requestMatchers("/change-password/**").permitAll()
-                        .requestMatchers("/font-awesome/**").permitAll()
-                        .requestMatchers("/fonts/**").permitAll()
-                        .requestMatchers("/images/**").permitAll()
-                        .requestMatchers("/save").permitAll()
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
-                        .requestMatchers("/employee/**").hasAnyRole("MANAGER", "EMPLOYEE")
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        .anyRequest().authenticated()
-                )
-
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login")
-                        .permitAll()
-                ).userDetailsService(crmUserDetails)
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login")
-                        .userInfoEndpoint(userInfo -> userInfo
-                                .userService(oauthUserService))
-                        .successHandler(oAuth2LoginSuccessHandler)
-                ).logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .permitAll())
-                .exceptionHandling(exception -> {
-                    exception.accessDeniedHandler(accessDeniedHandler());
-                });
-
-
+            authorizeHttpRequests((authorize) -> authorize
+                
+                .requestMatchers("/register/**").permitAll()
+                .requestMatchers("/set-employee-password/**").permitAll()
+                .requestMatchers("/change-password/**").permitAll()
+                .requestMatchers("/font-awesome/**").permitAll()
+                .requestMatchers("/fonts/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/save").permitAll()
+                .requestMatchers("/js/**").permitAll()
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers("/ajax/**").permitAll() // Autoriser les appels AJAX
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
+                .requestMatchers("/employee/**").hasAnyRole("MANAGER", "EMPLOYEE")
+                .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                .anyRequest().authenticated()
+            )
+            
+            .formLogin((form) -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/", true)
+                .failureUrl("/login")
+                .permitAll()
+            ).userDetailsService(crmUserDetails)
+            .oauth2Login(oauth2 -> oauth2
+                .loginPage("/login")
+                .userInfoEndpoint(userInfo -> userInfo
+                    .userService(oauthUserService))
+                .successHandler(oAuth2LoginSuccessHandler)
+            ).logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll())
+            .exceptionHandling(exception -> {
+                exception.accessDeniedHandler(accessDeniedHandler());
+            });
+        
+        
         return http.build();
     }
-
+    
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
-
+    
     @Bean
     @Order(1)
     public SecurityFilterChain customerSecurityFilterChain(HttpSecurity http) throws Exception {
-
-
+        
+        
         HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
         httpSessionCsrfTokenRepository.setParameterName("csrf");
-
+        
         http.csrf((csrf) -> csrf
-                .csrfTokenRepository(httpSessionCsrfTokenRepository)
+            .csrfTokenRepository(httpSessionCsrfTokenRepository)
         );
-
+        
         http.securityMatcher("/customer-login/**").
-                authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/set-password/**").permitAll()
-                        .requestMatchers("/font-awesome/**").permitAll()
-                        .requestMatchers("/fonts/**").permitAll()
-                        .requestMatchers("/images/**").permitAll()
-                        .requestMatchers("/js/**").permitAll()
-                        .requestMatchers("/css/**").permitAll()
-                        .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
-                        .anyRequest().authenticated()
-                )
-
-                .formLogin((form) -> form
-                        .loginPage("/customer-login")
-                        .loginProcessingUrl("/customer-login")
-                        .failureUrl("/customer-login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll()).userDetailsService(customerUserDetails)
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/customer-login")
-                        .permitAll());
-
+            authorizeHttpRequests((authorize) -> authorize
+                .requestMatchers("/set-password/**").permitAll()
+                .requestMatchers("/font-awesome/**").permitAll()
+                .requestMatchers("/fonts/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
+                .requestMatchers("/js/**").permitAll()
+                .requestMatchers("/css/**").permitAll()
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
+                .anyRequest().authenticated()
+            )
+            
+            .formLogin((form) -> form
+                .loginPage("/customer-login")
+                .loginProcessingUrl("/customer-login")
+                .failureUrl("/customer-login")
+                .defaultSuccessUrl("/", true)
+                .permitAll()).userDetailsService(customerUserDetails)
+            .logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/customer-login")
+                .permitAll());
+        
         return http.build();
     }
-
+    
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:insert="~{/general/head.html}"></div>
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
+
+<!-- Editable CSS -->
+<link rel="stylesheet" type="text/css"
+      th:href="@{/css/dataTables.bootstrap4.css}">
+<link rel="stylesheet" type="text/css"
+      th:href="@{/css/responsive.dataTables.min.css}">
+
+<!-- Custom CSS -->
+<link th:href="@{/css/style.min.css}" rel="stylesheet">
+<!-- page css -->
+<link th:href="@{/css/pages/inbox.css}" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="skin-blue fixed-layout">
+<!-- ============================================================== -->
+<!-- Preloader - style you can find in spinners.css -->
+<!-- ============================================================== -->
+<div class="preloader">
+    <div class="loader">
+        <div class="loader__figure"></div>
+        <p class="loader__label">Elite admin</p>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div id="main-wrapper">
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div th:insert="~{/general/header.html}"></div>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <div th:insert="~{/general/left-sidebar.html}"></div>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <div th:insert="~{/general/page-titles.html}"></div>
+            <!-- ============================================================== -->
+            <!-- End Bread crumb and right sidebar toggle -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Import Data from CSV</h5>
+                            <p class="card-text">Upload a CSV file to import data into the database.</p>
+
+                            <form id="csvImportForm" method="post" enctype="multipart/form-data" th:action="${home + 'data/import-csv'}">
+                                <div class="form-group mb-3">
+                                    <label for="csvFile" class="form-label">Select CSV File</label>
+                                    <input type="file" class="form-control" id="csvFile" name="csvFile" accept=".csv" required>
+                                </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="tableSelect" class="form-label">Select Target Table</label>
+                                    <select class="form-control" id="tableSelect" name="targetTable" required>
+                                        <option value="">-- Select a table --</option>
+                                        <option th:each="table : ${allTables}" th:value="${table}" th:text="${table}"></option>
+                                    </select>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="headerCheckbox" name="hasHeader" checked>
+                                    <label class="form-check-label" for="headerCheckbox">
+                                        First row contains headers
+                                    </label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" id="truncateCheckbox" name="truncateBeforeImport">
+                                    <label class="form-check-label" for="truncateCheckbox">
+                                        Clear table before import
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary waves-effect waves-light">
+                                    <i class="fas fa-upload mr-1"></i> Import CSV
+                                </button>
+                            </form>
+
+                            <div id="importResult" class="mt-3">
+                                <!-- Message de confirmation d'import -->
+                                <div th:if="${importMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <span th:text="${importMessage}"></span>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Database Reset Tool</h4>
+                            <h6 class="card-subtitle">This tool allows you to reset selected tables in the database</h6>
+
+        <!--                    &lt;!&ndash; Message de confirmation &ndash;&gt;-->
+        <!--                    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">-->
+        <!--                        <span th:text="${message}"></span>-->
+        <!--                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+        <!--                            <span aria-hidden="true">&times;</span>-->
+        <!--                        </button>-->
+        <!--                    </div>-->
+
+        <!--                    <form th:action="${home + 'data/reset-database'}" method="post">-->
+        <!--                        <div class="form-group">-->
+        <!--                            <div class="alert alert-warning">-->
+        <!--                                <strong>Warning!</strong> This action will delete all data from the selected tables.-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <button type="submit" class="btn btn-danger">Reset Database</button>-->
+        <!--                    </form>-->
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p>Reset database tables </p>
+                                            <ul th:each="table : ${allTables}">
+                                                <li th:text="${table}"></li>
+                                            </ul>
+                                            <br>
+                                            <div class="form-group">
+                                                <div class="alert alert-warning">
+                                                    <strong>Warning!</strong> This action will delete all data from the selected tables.
+                                                </div>
+                                            </div>
+                                            <button id="resetBtn" class="btn btn-danger waves-effect waves-light">Reset Database</button>
+
+                                            <div id="ajaxResult" class="mt-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Page Content -->
+            <!-- ============================================================== -->
+            <!-- ============================================================== -->
+            <!-- Right sidebar -->
+            <!-- ============================================================== -->
+            <!-- .right-sidebar -->
+            <div th:insert="~{/general/right-sidebar.html}"></div>
+            <!-- ============================================================== -->
+            <!-- End Right sidebar -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <div th:insert="~{/general/footer.html}"></div>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+</div>
+<!-- ============================================================== -->
+<!-- End Wrapper -->
+<!-- ============================================================== -->
+<!-- ============================================================== -->
+<!-- All Jquery -->
+<!-- ============================================================== -->
+<script th:inline="javascript">
+    var home = /*[[${home}]]*/ null;
+</script>
+
+<script th:src="@{/js/library/jquery-3.2.1.min.js}" type="text/javascript">></script>
+<!--    &lt;!&ndash; Bootstrap tether Core JavaScript &ndash;&gt;-->
+<script th:src="@{/js/library/popper.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/bootstrap.min.js}" type="text/javascript">></script>
+<!--    &lt;!&ndash; slimscrollbar scrollbar JavaScript &ndash;&gt;-->
+<script th:src="@{/js/library/perfect-scrollbar.jquery.min.js}" type="text/javascript">></script>
+<!--Wave Effects -->
+<script th:src="@{/js/library/waves.js}" type="text/javascript">></script>
+<!--Menu sidebar -->
+<script th:src="@{/js/library/sidebarmenu.js}" type="text/javascript">></script>
+<!--stickey kit -->
+<script th:src="@{/js/library/sticky-kit.min.js}"></script>
+<script th:src="@{/js/library/jquery.sparkline.min.js}" type="text/javascript">></script>
+<!--Custom JavaScript -->
+<script th:src="@{/js/library/custom.min.js}" type="text/javascript">></script>
+<!-- Editable -->
+<script th:src="@{/js/library/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/library/dataTables.responsive.min.js}"></script>
+<script>
+    $('#config-table').DataTable({
+        responsive: true
+    });
+</script>
+<!-- Script AJAX -->
+<script>
+    $(document).ready(function() {
+        $('#resetBtn').click(function() {
+            if (confirm('Are you sure you want to reset the database? This action cannot be undone.')) {
+                $.ajax({
+                    url: '/data/reset-database-ajax',
+                    type: 'POST',
+                    beforeSend: function() {
+                        $('#ajaxResult').html('<div class="alert alert-info">Processing request...</div>');
+                    },
+                    success: function(response) {
+                        $('#ajaxResult').html('<div class="alert alert-success">' + response + '</div>');
+                    },
+                    error: function(xhr) {
+                        $('#ajaxResult').html('<div class="alert alert-danger">Error: ' + xhr.responseText + '</div>');
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
