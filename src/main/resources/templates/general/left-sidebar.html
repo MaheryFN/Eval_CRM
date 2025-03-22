@@ -121,6 +121,16 @@
                         <li><a th:href="${home + 'employee/ticket/create-ticket'}">Create ticket</a></li>
                     </ul>
                 </li>
+                <li class="nav-small-cap">--- Budget</li>
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span class="hide-menu">Budget</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'budget/create_budget'}">Create Budget</a></li>
+                    </ul>
+                </li>
                 <li class="nav-small-cap">--- Leads</li>
                 <li>
                     <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
@@ -200,7 +210,13 @@
                         <span class="hide-menu">My Tickets</span>
                     </a>
                 </li>
-
+                <li class="nav-small-cap">--- Budgets</li>
+                <li>
+                    <a class="waves-effect waves-dark" th:href="${home + 'budget/list_budget'}">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span class="hide-menu">My Budget</span>
+                    </a>
+                </li>
                 <li class="nav-small-cap">--- Leads</li>
                 <li>
                     <a class="waves-effect waves-dark" th:href="${home + 'customer/my-leads'}">

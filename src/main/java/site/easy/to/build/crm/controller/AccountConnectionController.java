@@ -28,6 +28,7 @@ public class AccountConnectionController {
     private final AuthenticationUtils authenticationUtils;
     private final UserProfileService userProfileService;
     private final HttpSession session;
+    
     public AccountConnectionController(PasswordEncoder passwordEncoder, UserService userService, OAuthUserService oAuthUserService, AuthenticationUtils authenticationUtils, UserProfileService userProfileService, HttpSession session) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
