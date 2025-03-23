@@ -12,7 +12,7 @@ import java.util.List;
 public interface LeadRepository extends JpaRepository<Lead, Integer> {
     public Lead findByLeadId(int id);
 
-    public List<Lead> findByCustomerCustomerId(int customerId);
+        public List<Lead> findByCustomerCustomerId(int customerId);
     public List<Lead> findByManagerId(int userId);
 
     public List<Lead> findByEmployeeId(int userId);

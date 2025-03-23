@@ -77,30 +77,31 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Create New Budget Customer</h4>
-                            <div th:if="${customers.size()} > 0">
-                                <form th:action="@{/budget/budget-create/create}" method="post">
-                                    <label class="m-t-20" for="customerId">Customer:</label>
+                            <h4 class="card-title">Create Depense Lead</h4>
+                            <div th:if="${leads.size()} > 0">
+                                <form th:action="${home + 'depenseLead/check-depense-lead'}" method="post">
+                                    <label class="m-t-20" for="leadId">Lead:</label>
                                     <div class="input-group">
-                                        <select name="customerId" id="customerId" class="form-control">
-                                            <option th:each="customer : ${customers}" th:text="${customer.name}" th:value="${customer.customerId}"></option>
+                                        <select name="leadId" id="leadId" class="form-control">
+                                            <option th:each="lead : ${leads}" th:text="${lead.name}" th:value="${lead.leadId}"></option>
                                         </select>
                                     </div>
                                     <label class="m-t-20" for="montant">Amount:</label>
                                     <div class="input-group">
                                         <input type="number" id="montant" name="montant" class="form-control" step="0.01">
                                     </div>
-                                    <button type="submit" class="btn btn-primary m-t-20">Create Budget</button>
+
+                                    <button type="submit" class="btn btn-primary m-t-20">Create depense</button>
                                 </form>
                             </div>
-                            <div th:if="${customers.size()} <= 0" class="empty-state-container p-4 text-center bg-light rounded shadow-sm my-3">
+                            <div th:if="${leads.size()} <= 0" class="empty-state-container p-4 text-center bg-light rounded shadow-sm my-3">
                                 <div class="empty-state-icon mb-3">
-                                    <i class="ti-briefcase text-primary" style="font-size: 3rem;"></i>
+                                    <i class="ti-id-badge text-primary" style="font-size: 3rem;"></i>
                                 </div>
-                                <h5 class="empty-state-title text-muted">No Customers Available</h5>
-                                <p class="empty-state-description mb-3">Please add new customer to create a depense.</p>
-                                <a href="#" th:href="${home + 'employee/customer/create-customer'}" class="btn btn-outline-primary">
-                                    <i class="ti-plus mr-1"></i> Add New Customer
+                                <h5 class="empty-state-title text-muted">No Leads Available</h5>
+                                <p class="empty-state-description mb-3">Please add new lead to create a depense.</p>
+                                <a href="#" th:href="${home + 'employee/lead/create'}" class="btn btn-outline-primary">
+                                    <i class="ti-plus mr-1"></i> Add New Lead
                                 </a>
                             </div>
                         </div>
