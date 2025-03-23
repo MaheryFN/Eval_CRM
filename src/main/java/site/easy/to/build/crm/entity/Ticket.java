@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.mapping.ToOne;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "trigger_ticket")
@@ -132,5 +134,22 @@ public class Ticket {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+    
+    public static List<Ticket> findTicketWithoutDepense(List<Ticket> allTickets, List<DepenseTicket> depenseTickets) {
+        List<Ticket> filteredTickets = new ArrayList<>();
+        for (Ticket lead : allTickets) {
+            boolean foundTicket = false;
+            for (DepenseTicket depenseTicket : depenseTickets) {
+                if (lead.getTicketId() == depenseTicket.getTicket().getTicketId()) {
+                    foundTicket = true;
+                    break;
+                }
+            }
+            if (!foundTicket) {
+                filteredTickets.add(lead);
+            }
+        }
+        return filteredTickets;
     }
 }

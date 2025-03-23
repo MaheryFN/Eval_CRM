@@ -4,9 +4,13 @@
 <div th:insert="~{/general/head.html}"></div>
 <meta name="_csrf" content="${_csrf.token}"/>
 <meta name="_csrf_header" content="${_csrf.headerName}"/>
-<link rel="stylesheet" th:href="@{/css/bootstrap-wysihtml5.css}"/>
+
 <!-- Editable CSS -->
-<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<link rel="stylesheet" type="text/css"
+      th:href="@{/css/dataTables.bootstrap4.css}">
+<link rel="stylesheet" type="text/css"
+      th:href="@{/css/responsive.dataTables.min.css}">
+
 <!-- Custom CSS -->
 <link th:href="@{/css/style.min.css}" rel="stylesheet">
 <!-- page css -->
@@ -27,7 +31,7 @@
 <div class="preloader">
     <div class="loader">
         <div class="loader__figure"></div>
-        <p class="loader__label">CRM</p>
+        <p class="loader__label">Elite admin</p>
     </div>
 </div>
 <!-- ============================================================== -->
@@ -66,49 +70,53 @@
             <!-- ============================================================== -->
             <!-- Start Page Content -->
             <!-- ============================================================== -->
-            <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
-                <span th:text="${message}"></span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Create New Budget Customer</h4>
-                            <div th:if="${customers.size()} > 0">
-                                <form th:action="@{/budget/budget-create/create}" method="post">
-                                    <label class="m-t-20" for="customerId">Customer:</label>
-                                    <div class="input-group">
-                                        <select name="customerId" id="customerId" class="form-control">
-                                            <option th:each="customer : ${customers}" th:text="${customer.name}" th:value="${customer.customerId}"></option>
-                                        </select>
+                            <h4 class="card-title">Alerte de dépassement de budget</h4>
+                            <h6 class="card-subtitle">Confirmation requise pour continuer malgré le dépassement budgétaire</h6>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5>Détails du dépassement</h5>
+
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <span class="font-weight-bold">Budget client:</span>
+                                        <span th:text="${budget}"></span>
                                     </div>
-                                    <label class="m-t-20" for="montant">Amount:</label>
-                                    <div class="input-group">
-                                        <input type="number" id="montant" name="montant" class="form-control" step="0.01">
+
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span class="font-weight-bold">Montant inséré:</span>
+                                        <span th:text="${montant}"></span>
                                     </div>
-                                    <button type="submit" class="btn btn-primary m-t-20">Create Budget</button>
-                                </form>
-                            </div>
-                            <div th:if="${customers.size()} <= 0" class="empty-state-container p-4 text-center bg-light rounded shadow-sm my-3">
-                                <div class="empty-state-icon mb-3">
-                                    <i class="ti-briefcase text-primary" style="font-size: 3rem;"></i>
+
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <span class="font-weight-bold">Montant du dépassement:</span>
+                                        <span class="text-danger" th:text="${remaining_amount} "></span>
+                                    </div>
+
+                                    <div class="alert alert-warning mt-3">
+                                        <strong>Attention!</strong> Le montant inséré dépasse le budget alloué au Customer.
+                                        Voulez-vous continuer malgré le dépassement budgétaire?
+                                    </div>
+
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <a th:href="${home + 'depenseLead/create-depense-lead'}" class="btn btn-secondary waves-effect waves-light">Annuler</a>
+
+                                        <form th:action="${home + 'depenseLead/save-depense-lead'}" method="post">
+                                            <input type="hidden" name="montant" th:value="${montant}" />
+                                            <input type="hidden" name="leadId" th:value="${leadId}" />
+                                            <button type="submit" class="btn btn-danger waves-effect waves-light">Confirmer le dépassement</button>
+                                        </form>
+                                    </div>
+
+                                    <div id="ajaxResult" class="mt-3"></div>
                                 </div>
-                                <h5 class="empty-state-title text-muted">No Customers Available</h5>
-                                <p class="empty-state-description mb-3">Please add new customer to create a depense.</p>
-                                <a href="#" th:href="${home + 'employee/customer/create-customer'}" class="btn btn-outline-primary">
-                                    <i class="ti-plus mr-1"></i> Add New Customer
-                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
             <!-- ============================================================== -->
             <!-- End Page Content -->
             <!-- ============================================================== -->
@@ -145,6 +153,7 @@
 <script th:inline="javascript">
     var home = /*[[${home}]]*/ null;
 </script>
+
 <script th:src="@{/js/library/jquery-3.2.1.min.js}" type="text/javascript">></script>
 <!--    &lt;!&ndash; Bootstrap tether Core JavaScript &ndash;&gt;-->
 <script th:src="@{/js/library/popper.min.js}" type="text/javascript">></script>
@@ -161,26 +170,12 @@
 <!--Custom JavaScript -->
 <script th:src="@{/js/library/custom.min.js}" type="text/javascript">></script>
 <!-- Editable -->
-
-<script th:src="@{/js/library/wysihtml5-0.3.0.js}"></script>
-<script th:src="@{/js/library/bootstrap-wysihtml5.js}"></script>
-<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script th:src="@{/js/library/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/library/dataTables.responsive.min.js}"></script>
 <script>
-    Dropzone.autoDiscover = false;
-    $(document).ready(function() {
-        $('.textarea_editor').wysihtml5();
+    $('#config-table').DataTable({
+        responsive: true
     });
 </script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    var existingFiles = /*[[${attachments}]]*/ 'default';
-    var folders = /*[[${folders}]]*/ 'default';
-    var driveFolderId = "";
-
-    /*]]>*/
-</script>
-<script th:src="@{/js/general-dropzone.js}" type="text/javascript"
-        th:data-csrf-token="${_csrf.token}" th:data-csrf-header="${_csrf.headerName}"></script>
 </body>
 </html>
