@@ -1,8 +1,8 @@
 package site.easy.to.build.crm.service.budget;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import site.easy.to.build.crm.entity.Budget;
+import site.easy.to.build.crm.service.depenseLead.DepenseLeadService;
+import site.easy.to.build.crm.service.depenseTicket.DepenseTicketService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,4 +20,5 @@ public interface BudgetService {
     
     public BigDecimal getTotalMontant(int customerId);
     
+    public double calculate_remaining_amount(BudgetService budgetService, DepenseLeadService depenseLeadService, DepenseTicketService depenseTicketService, int customerId);
 }

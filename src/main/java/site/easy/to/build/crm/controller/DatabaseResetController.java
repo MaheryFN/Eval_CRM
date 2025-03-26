@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import site.easy.to.build.crm.service.data.DatabaseResetService;
 
 import java.util.Arrays;
@@ -24,7 +23,19 @@ public class DatabaseResetController {
     
     // Liste des tables à réinitialiser
     private final List<String> defaultTablesToReset = Arrays.asList(
-        "file"
+        "budget",
+        "customer",
+        "depense_lead",
+        "depense_ticket",
+        "taux",
+        "trigger_lead",
+        "trigger_ticket",
+        "customer_login_info",
+        "contract_settings",
+        "lead_action",
+        "lead_settings",
+        "ticket_settings",
+        "trigger_contract"
     );
     
     // AJAX

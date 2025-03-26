@@ -66,6 +66,22 @@
             <!-- ============================================================== -->
             <!-- Start Page Content -->
             <!-- ============================================================== -->
+
+
+            <div th:if="${taux}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span th:text="${taux}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div th:if="${taux1}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                <span th:text="${taux1}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
             <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
                 <span th:text="${message}"></span>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -86,9 +102,16 @@
                                             <option th:each="lead : ${leads}" th:text="${lead.name}" th:value="${lead.leadId}"></option>
                                         </select>
                                     </div>
+                                    <br>
+                                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <span th:text="${error}"></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     <label class="m-t-20" for="montant">Amount:</label>
                                     <div class="input-group">
-                                        <input type="number" id="montant" name="montant" class="form-control" step="0.01">
+                                        <input type="number" id="montant" name="montant" class="form-control" step="0.01" required>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary m-t-20">Create depense</button>

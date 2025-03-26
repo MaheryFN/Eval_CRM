@@ -4,9 +4,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.easy.to.build.crm.entity.Customer;
+import site.easy.to.build.crm.entity.DepenseTicket;
 import site.easy.to.build.crm.repository.TicketRepository;
 import site.easy.to.build.crm.entity.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -89,5 +91,27 @@ public class TicketServiceImpl implements TicketService{
     @Override
     public void deleteAllByCustomer(Customer customer) {
         ticketRepository.deleteAllByCustomer(customer);
+    }
+    
+    @Override
+    public List<Ticket> saveAll(List<Ticket> tickets) {
+        return ticketRepository.saveAll(tickets);
+    }
+    
+    public List<Ticket> findTicketWithoutDepense(List<Ticket> allTickets, List<DepenseTicket> depenseTickets) {
+        List<Ticket> filteredTickets = new ArrayList<>();
+        for (Ticket lead : allTickets) {
+            boolean foundTicket = false;
+            for (DepenseTicket depenseTicket : depenseTickets) {
+                if (lead.getTicketId() == depenseTicket.getTicket().getTicketId()) {
+                    foundTicket = true;
+                    break;
+                }
+            }
+            if (!foundTicket) {
+                filteredTickets.add(lead);
+            }
+        }
+        return filteredTickets;
     }
 }

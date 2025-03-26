@@ -19,7 +19,9 @@ public interface CustomerService {
     public Customer save(Customer customer);
 
     public void delete(Customer customer);
-
+    
+    public List<Customer> saveAll(List<Customer> customers);
+    
     public List<Customer> getRecentCustomers(int userId, int limit);
 
     long countByUserId(int userId);

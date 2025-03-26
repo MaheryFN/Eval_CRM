@@ -22,4 +22,5 @@ public interface DepenseLeadRepository extends JpaRepository<DepenseLead, Intege
     
     @Query(value = "select sum(montant) from depense_lead where lead_id = :leadId", nativeQuery = true)
     public Double getTotalMontantLeadId(@Param("leadId") int leadId);
+
 }

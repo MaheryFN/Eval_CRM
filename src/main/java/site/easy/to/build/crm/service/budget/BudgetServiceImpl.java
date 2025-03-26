@@ -3,6 +3,8 @@ package site.easy.to.build.crm.service.budget;
 import org.springframework.stereotype.Service;
 import site.easy.to.build.crm.entity.Budget;
 import site.easy.to.build.crm.repository.BudgetRepository;
+import site.easy.to.build.crm.service.depenseLead.DepenseLeadService;
+import site.easy.to.build.crm.service.depenseTicket.DepenseTicketService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,5 +37,11 @@ public class BudgetServiceImpl implements BudgetService {
     
     public BigDecimal getTotalMontant(int customerId) {
         return budgetRepository.getTotalMontant(customerId);
+    }
+    
+    public double calculate_remaining_amount(BudgetService budgetService, DepenseLeadService depenseLeadService, DepenseTicketService depenseTicketService, int customerId) {
+        double depense = depenseLeadService.getTotalMontantCustomerId(customerId) + depenseTicketService.getTotalMontantCustomerId(customerId);
+        double budget = budgetService.getTotalMontant(customerId).doubleValue() ;
+        return budget - depense;
     }
 }

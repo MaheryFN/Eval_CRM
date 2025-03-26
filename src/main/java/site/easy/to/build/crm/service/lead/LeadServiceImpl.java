@@ -4,9 +4,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import site.easy.to.build.crm.entity.Customer;
+import site.easy.to.build.crm.entity.DepenseLead;
 import site.easy.to.build.crm.repository.LeadRepository;
 import site.easy.to.build.crm.entity.Lead;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -94,4 +96,27 @@ public class LeadServiceImpl implements LeadService {
     public long countByCustomerId(int customerId) {
         return leadRepository.countByCustomerCustomerId(customerId);
     }
+    
+    @Override
+    public List<Lead> saveAll(List<Lead> leads) {
+        return leadRepository.saveAll(leads);
+    }
+    
+    public List<Lead> findLeadWithoutDepense(List<Lead> allLeads, List<DepenseLead> depenseLeads) {
+        List<Lead> filteredLeads = new ArrayList<>();
+        for (Lead lead : allLeads) {
+            boolean foundLead = false;
+            for (DepenseLead depenseLead : depenseLeads) {
+                if (lead.getLeadId() == depenseLead.getLead().getLeadId()) {
+                    foundLead = true;
+                    break;
+                }
+            }
+            if (!foundLead) {
+                filteredLeads.add(lead);
+            }
+        }
+        return filteredLeads;
+    }
+    
 }

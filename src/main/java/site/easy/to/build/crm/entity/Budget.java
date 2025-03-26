@@ -77,10 +77,4 @@ public class Budget {
         this.customer = customer;
     }
     
-    public static double calculate_remaining_amount(BudgetService budgetService, DepenseLeadService depenseLeadService, DepenseTicketService depenseTicketService, int customerId) {
-        double depense = depenseLeadService.getTotalMontantCustomerId(customerId) + depenseTicketService.getTotalMontantCustomerId(customerId);
-        double budget = budgetService.getTotalMontant(customerId).doubleValue() ;
-        return budget - depense;
-    }
-    
 }

@@ -3,7 +3,7 @@ package site.easy.to.build.crm.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "depense_lead")
@@ -17,7 +17,7 @@ public class DepenseLead {
     private BigDecimal montant;
     
     @Column(name = "date_ajout")
-    private LocalDate dateAjout;
+    private LocalDateTime dateAjout;
     
     @ManyToOne
     @JoinColumn(name = "lead_id")
@@ -25,13 +25,13 @@ public class DepenseLead {
     
     public DepenseLead() {}
     
-    public DepenseLead(BigDecimal montant, LocalDate dateAjout, Lead lead) {
+    public DepenseLead(BigDecimal montant, LocalDateTime dateAjout, Lead lead) {
         this.montant = montant;
         this.dateAjout = dateAjout;
         this.lead = lead;
     }
     
-    public DepenseLead(Integer depenseLeadId, BigDecimal montant, LocalDate dateAjout, Lead lead) {
+    public DepenseLead(Integer depenseLeadId, BigDecimal montant, LocalDateTime dateAjout, Lead lead) {
         this.depenseLeadId = depenseLeadId;
         this.montant = montant;
         this.dateAjout = dateAjout;
@@ -54,11 +54,11 @@ public class DepenseLead {
         this.montant = montant;
     }
     
-    public LocalDate getDateAjout() {
+    public LocalDateTime getDateAjout() {
         return dateAjout;
     }
     
-    public void setDateAjout(LocalDate dateAjout) {
+    public void setDateAjout(LocalDateTime dateAjout) {
         this.dateAjout = dateAjout;
     }
     

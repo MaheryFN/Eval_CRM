@@ -1,8 +1,10 @@
 package site.easy.to.build.crm.service.lead;
 
 import site.easy.to.build.crm.entity.Customer;
+import site.easy.to.build.crm.entity.DepenseLead;
 import site.easy.to.build.crm.entity.Lead;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface LeadService {
@@ -28,7 +30,11 @@ public interface LeadService {
     long countByManagerId(int managerId);
     long countByCustomerId(int customerId);
 
+    public List<Lead> saveAll(List<Lead> leads);
+    
     List<Lead> getRecentLeadsByEmployee(int employeeId, int limit);
     List<Lead> getRecentCustomerLeads(int customerId, int limit);
     public void deleteAllByCustomer(Customer customer);
+    
+    public List<Lead> findLeadWithoutDepense(List<Lead> allLeads, List<DepenseLead> depenseLeads);
 }
