@@ -80,4 +80,18 @@ public class DepenseLeadServiceImpl implements DepenseLeadService {
         }
         return total;
     }
+    
+    @Override
+    public DepenseLead findById(int id) {
+        return depenseLeadRepository.findById(id).orElse(null);
+    }
+    
+    @Override
+    public List<DepenseLead> saveAll(List<DepenseLead> depenseLeads) {
+        return depenseLeadRepository.saveAll(depenseLeads);
+    }
+    
+    
+    
+    
 }

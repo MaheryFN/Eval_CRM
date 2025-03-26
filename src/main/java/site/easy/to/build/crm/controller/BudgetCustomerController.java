@@ -20,7 +20,6 @@ import site.easy.to.build.crm.service.user.UserService;
 import site.easy.to.build.crm.util.AuthenticationUtils;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -51,10 +50,22 @@ public class BudgetCustomerController {
         int profileId = authenticationUtils.getLoggedInUserId(authentication);
         Customer customer = customerService.findByProfileId(profileId);
         List<Budget> all_budgets = budgetService.findByCustomerCustomerId(customer.getCustomerId());
-        BigDecimal totalAmount = BigDecimal.valueOf(Budget.calculate_remaining_amount(budgetService, depenseLeadService, depenseTicketService, customer.getCustomerId()));
+        BigDecimal totalAmountWithDepense = BigDecimal.valueOf(budgetService.calculate_remaining_amount(budgetService, depenseLeadService, depenseTicketService, customer.getCustomerId()));
+        totalAmountWithDepense = totalAmountWithDepense.setScale(2, BigDecimal.ROUND_HALF_UP);
+        
+        BigDecimal totalAmount = budgetService.getTotalMontant(customer.getCustomerId());
+        totalAmount = totalAmount.setScale(2, BigDecimal.ROUND_HALF_UP);
         model.addAttribute("all_budgets", all_budgets);
         model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("totalAmountWithDepense", totalAmountWithDepense);
         return "budgetCustomer/show-my-budget";
+    }
+    
+    @GetMapping("/all-list_budget")
+    public String all_list_Budget(Model model, Authentication authentication) {
+        List<Budget> all_budgets = budgetService.findAll();
+        model.addAttribute("all_budgets", all_budgets);
+        return "budgetCustomer/all-budget";
     }
     
     @GetMapping("/create_budget")
@@ -66,10 +77,11 @@ public class BudgetCustomerController {
     
     @PostMapping("/budget-create/create")
     public String createBudget(@ModelAttribute("budget") @Validated Budget budget,
-                               @RequestParam("montant") BigDecimal montant,
+                               @RequestParam(value = "montant", required = false) BigDecimal montant,
                                @RequestParam("customerId") int customerId,
                                RedirectAttributes redirectAttributes,
-                               Authentication authentication
+                               Authentication authentication,
+                               Model model
                                ) {
         int userId = authenticationUtils.getLoggedInUserId(authentication);
         User manager = userService.findById(userId);
@@ -83,6 +95,12 @@ public class BudgetCustomerController {
         
         budget.setCustomer(customer);
         budget.setDateAjout(LocalDateTime.now());
+        
+        if (montant == null || montant.compareTo(BigDecimal.ZERO) < 0) {
+            redirectAttributes.addFlashAttribute("error", "The amount cannot be empty or negative!");
+            return "redirect:/budget/create_budget";
+        }
+        
         budget.setMontant(montant);
         
         budgetService.save(budget);

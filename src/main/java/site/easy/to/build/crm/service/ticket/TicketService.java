@@ -1,8 +1,10 @@
 package site.easy.to.build.crm.service.ticket;
 
 import site.easy.to.build.crm.entity.Customer;
+import site.easy.to.build.crm.entity.DepenseTicket;
 import site.easy.to.build.crm.entity.Ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface TicketService {
@@ -33,4 +35,8 @@ public interface TicketService {
     long countByCustomerCustomerId(int customerId);
 
     void deleteAllByCustomer(Customer customer);
+    
+    public List<Ticket> saveAll(List<Ticket> tickets);
+    
+    public List<Ticket> findTicketWithoutDepense(List<Ticket> allTickets, List<DepenseTicket> depenseTickets);
 }

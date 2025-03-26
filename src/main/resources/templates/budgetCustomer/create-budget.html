@@ -86,6 +86,13 @@
                                             <option th:each="customer : ${customers}" th:text="${customer.name}" th:value="${customer.customerId}"></option>
                                         </select>
                                     </div>
+                                    <br>
+                                    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <span th:text="${error}"></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     <label class="m-t-20" for="montant">Amount:</label>
                                     <div class="input-group">
                                         <input type="number" id="montant" name="montant" class="form-control" step="0.01">

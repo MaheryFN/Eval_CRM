@@ -74,29 +74,25 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Tickets</h4>
+                            <h4 class="card-title">Budget</h4>
                             <div class="table-responsive m-t-40">
                                 <table id="config-table" class="table display table-bordered table-striped no-wrap">
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Subject</th>
-                                        <th>priority</th>
-                                        <th>Status</th>
-                                        <th>Employee Email</th>
-                                        <th>Employee name</th>
-                                        <th>Show</th>
+                                        <th>amount</th>
+                                        <th>Customer Name</th>
+                                        <th>Customer Email</th>
+                                        <th>Date Added</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:if="${tickets != null}" th:each="ticket : ${tickets}">
-                                        <td th:text="${ticket.ticketId}"></td>
-                                        <td th:text="${ticket.subject}"></td>
-                                        <td th:text="${ticket.priority}"></td>
-                                        <td th:text="${ticket.status}"></td>
-                                        <td th:text="${ticket.employee.email}"></td>
-                                        <td th:text="${ticket.employee.username}"></td>
-                                        <td><a th:href="${home + 'customer/ticket/'} + ${ticket.ticketId}"><i class="fas fa-eye"></i></a></td>
+                                    <tr th:if="${all_budgets != null}" th:each="budget : ${all_budgets}">
+                                        <td th:text="${budget.budgetId}"></td>
+                                        <td th:text="${budget.montant}"></td>
+                                        <td th:text="${budget.customer.name}"></td>
+                                        <td th:text="${budget.customer.email}"></td>
+                                        <td th:text="${budget.dateAjout}"></td>
                                     </tr>
                                     </tbody>
                                 </table>

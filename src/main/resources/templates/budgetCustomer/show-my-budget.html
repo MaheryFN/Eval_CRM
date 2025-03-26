@@ -90,6 +90,25 @@
                         </div>
                     </div>
                 </div>
+                <!-- Column -->
+                <!-- Column -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="d-flex no-block align-items-center">
+                                    <div>
+                                        <h3><i class="fas fa-ticket-alt"></i></h3>
+                                        <p class="text-muted">Total Amount - Expense</p>
+                                    </div>
+                                    <div class="ml-auto">
+                                        <h2 class="counter text-cyan" th:text="${totalAmountWithDepense}"></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
@@ -154,21 +173,21 @@
 <script th:inline="javascript">
     var home = /*[[${home}]]*/ null;
 </script>
-<script th:src="@{/js/library/jquery-3.2.1.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/jquery-3.2.1.min.js}" type="text/javascript"></script>
 <!--    &lt;!&ndash; Bootstrap tether Core JavaScript &ndash;&gt;-->
-<script th:src="@{/js/library/popper.min.js}" type="text/javascript">></script>
-<script th:src="@{/js/library/bootstrap.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/popper.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/library/bootstrap.min.js}" type="text/javascript"></script>
 <!--    &lt;!&ndash; slimscrollbar scrollbar JavaScript &ndash;&gt;-->
-<script th:src="@{/js/library/perfect-scrollbar.jquery.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/perfect-scrollbar.jquery.min.js}" type="text/javascript"></script>
 <!--Wave Effects -->
-<script th:src="@{/js/library/waves.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/waves.js}" type="text/javascript"></script>
 <!--Menu sidebar -->
-<script th:src="@{/js/library/sidebarmenu.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/sidebarmenu.js}" type="text/javascript"></script>
 <!--stickey kit -->
 <script th:src="@{/js/library/sticky-kit.min.js}"></script>
-<script th:src="@{/js/library/jquery.sparkline.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/jquery.sparkline.min.js}" type="text/javascript"></script>
 <!--Custom JavaScript -->
-<script th:src="@{/js/library/custom.min.js}" type="text/javascript">></script>
+<script th:src="@{/js/library/custom.min.js}" type="text/javascript"></script>
 <!-- Editable -->
 <script th:src="@{/js/library/jquery.dataTables.min.js}"></script>
 <script th:src="@{/js/library/dataTables.responsive.min.js}"></script>

@@ -9,15 +9,20 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import site.easy.to.build.crm.entity.*;
 import site.easy.to.build.crm.google.model.gmail.Attachment;
+import site.easy.to.build.crm.service.budget.BudgetService;
 import site.easy.to.build.crm.service.contract.ContractService;
 import site.easy.to.build.crm.service.customer.CustomerLoginInfoService;
 import site.easy.to.build.crm.service.customer.CustomerService;
+import site.easy.to.build.crm.service.depenseLead.DepenseLeadService;
+import site.easy.to.build.crm.service.depenseTicket.DepenseTicketService;
 import site.easy.to.build.crm.service.file.FileService;
 import site.easy.to.build.crm.service.lead.LeadService;
 import site.easy.to.build.crm.service.ticket.TicketService;
 import site.easy.to.build.crm.service.user.UserService;
 import site.easy.to.build.crm.util.AuthenticationUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -34,7 +39,11 @@ public class CustomerProfileController {
     private final ContractService contractService;
     private final LeadService leadService;
     private final FileService fileService;
-    public CustomerProfileController(CustomerService customerService, AuthenticationUtils authenticationUtils, CustomerLoginInfoService customerLoginInfoService, UserService userService, TicketService ticketService, ContractService contractService, LeadService leadService, FileService fileService) {
+    private final BudgetService budgetService;
+    private final DepenseTicketService depenseTicketService;
+    private final DepenseLeadService depenseLeadService;
+    
+    public CustomerProfileController(CustomerService customerService, AuthenticationUtils authenticationUtils, CustomerLoginInfoService customerLoginInfoService, UserService userService, TicketService ticketService, ContractService contractService, LeadService leadService, FileService fileService, BudgetService budgetService, DepenseTicketService depenseTicketService, DepenseLeadService depenseLeadService) {
         this.customerService = customerService;
         this.authenticationUtils = authenticationUtils;
         this.customerLoginInfoService = customerLoginInfoService;
@@ -43,6 +52,9 @@ public class CustomerProfileController {
         this.contractService = contractService;
         this.leadService = leadService;
         this.fileService = fileService;
+        this.budgetService = budgetService;
+        this.depenseTicketService = depenseTicketService;
+        this.depenseLeadService = depenseLeadService;
     }
 
     @GetMapping("/profile")
@@ -52,6 +64,10 @@ public class CustomerProfileController {
             int customerId = authenticationUtils.getLoggedInUserId(authentication);
             CustomerLoginInfo customerLoginInfo = customerLoginInfoService.findById(customerId);
             customer = customerService.findByEmail(customerLoginInfo.getEmail());
+            
+            BigDecimal totalAmount = BigDecimal.valueOf(budgetService.calculate_remaining_amount(budgetService, depenseLeadService, depenseTicketService, customer.getCustomerId()));
+            model.addAttribute("totalAmount", totalAmount.setScale(2, RoundingMode.HALF_UP));
+            
         } catch (RuntimeException e) {
             return "error/not-found";
         }

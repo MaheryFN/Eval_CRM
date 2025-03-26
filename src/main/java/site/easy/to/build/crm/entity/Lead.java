@@ -219,23 +219,6 @@ public class Lead {
         this.createdAt = createdAt;
     }
     
-    public static List<Lead> findLeadWithoutDepense(List<Lead> allLeads, List<DepenseLead> depenseLeads) {
-        List<Lead> filteredLeads = new ArrayList<>();
-        for (Lead lead : allLeads) {
-            boolean foundLead = false;
-            for (DepenseLead depenseLead : depenseLeads) {
-                if (lead.getLeadId() == depenseLead.getLead().getLeadId()) {
-                    foundLead = true;
-                    break;
-                }
-            }
-            if (!foundLead) {
-                filteredLeads.add(lead);
-            }
-        }
-        return filteredLeads;
-    }
-    
 }
 
 

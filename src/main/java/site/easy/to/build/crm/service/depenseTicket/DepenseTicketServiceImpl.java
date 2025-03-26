@@ -6,6 +6,7 @@ import site.easy.to.build.crm.repository.DepenseTicketRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DepenseTicketServiceImpl implements DepenseTicketService {
@@ -79,4 +80,15 @@ public class DepenseTicketServiceImpl implements DepenseTicketService {
         }
         return total;
     }
+    
+    @Override
+    public DepenseTicket findById(int id) {
+        return depenseTicketRepository.findById(id).orElse(null);
+    }
+    
+    @Override
+    public List<DepenseTicket> saveAll(List<DepenseTicket> leadDepenseTickets) {
+        return depenseTicketRepository.saveAll(leadDepenseTickets);
+    }
+    
 }

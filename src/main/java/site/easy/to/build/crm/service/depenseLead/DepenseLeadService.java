@@ -26,4 +26,8 @@ public interface DepenseLeadService {
     
     public double getTotalMontantCustomerId(int customerId);
     
+    public DepenseLead findById(int id);
+    
+    public List<DepenseLead> saveAll(List<DepenseLead> depenseLeads);
+    
 }

@@ -16,7 +16,7 @@ public interface LeadRepository extends JpaRepository<Lead, Integer> {
     public List<Lead> findByManagerId(int userId);
 
     public List<Lead> findByEmployeeId(int userId);
-
+    
     Lead findByMeetingId(String meetingId);
 
     public List<Lead> findByEmployeeIdOrderByCreatedAtDesc(int employeeId, Pageable pageable);

@@ -47,7 +47,12 @@ public class CustomerServiceImpl implements CustomerService {
     public void delete(Customer customer) {
         customerRepository.delete(customer);
     }
-
+    
+    @Override
+    public List<Customer> saveAll(List<Customer> customers) {
+        return customerRepository.saveAll(customers);
+    }
+    
     @Override
     public List<Customer> getRecentCustomers(int userId, int limit) {
         Pageable pageable = PageRequest.of(0, limit);

@@ -55,7 +55,7 @@ public class SecurityConfig {
 
         http.csrf((csrf) -> csrf
                 .csrfTokenRepository(httpSessionCsrfTokenRepository)
-                .ignoringRequestMatchers("/ajax/**", "data/**") // Désactiver CSRF pour les requêtes AJAX
+                .ignoringRequestMatchers("/ajax/**", "data/**", "/api/**") // Désactiver CSRF pour les requêtes AJAX
         );
 
         http.
@@ -71,6 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/ajax/**").permitAll() // Autoriser les appels AJAX
+                        .requestMatchers("/api/**").permitAll()
                         .requestMatchers(AntPathRequestMatcher.antMatcher("/**/manager/**")).hasRole("MANAGER")
                         .requestMatchers("/employee/**").hasAnyRole("MANAGER", "EMPLOYEE")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")

@@ -45,7 +45,13 @@
                         <!-- AJOUTER CETTE LIGNE POUR LA RÉINITIALISATION DE DB -->
                         <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
                             <a th:href="${home + 'data/manager/database/reset'}">
-                                <i class="fas fa-database"></i> - Database Reset
+                                Database Reset
+                            </a>
+                        </li>
+                        <!-- AJOUTER CETTE LIGNE POUR L ' IMPORT CSV -->
+                        <li th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">
+                            <a th:href="${home + 'importCsv/manager/database/import-csv'}">
+                                Import Csv
                             </a>
                         </li>
                     </ul>
@@ -106,6 +112,8 @@
                         <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'employee/customer/manager/all-customers'}">All customers</a></li>
                         <li><a th:href="${home + 'employee/customer/my-customers'}">My customers</a></li>
                         <li><a th:href="${home + 'employee/customer/create-customer'}">Create customer</a></li>
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'budget/all-list_budget'}">All Budget</a></li>
+                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'budget/create_budget'}">Create Budget</a></li>
                     </ul>
                 </li>
                 <li class="nav-small-cap">--- Tickets</li>
@@ -119,16 +127,6 @@
                         <li><a th:href="${home + 'employee/ticket/assigned-tickets'}">Assigned tickets</a></li>
                         <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'employee/ticket/created-tickets'}">Created tickets</a></li>
                         <li><a th:href="${home + 'employee/ticket/create-ticket'}">Create ticket</a></li>
-                    </ul>
-                </li>
-                <li class="nav-small-cap">--- Budget</li>
-                <li>
-                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
-                        <i class="fas fa-wallet"></i>
-                        <span class="hide-menu">Budget</span>
-                    </a>
-                    <ul class="collapse">
-                        <li><a th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}" th:href="${home + 'budget/create_budget'}">Create Budget</a></li>
                     </ul>
                 </li>
                 <li class="nav-small-cap" th:if="${#authorization.expression('hasRole(''ROLE_MANAGER'')')}">--- Depense</li>
@@ -237,9 +235,20 @@
                 <li class="nav-small-cap">--- Budgets</li>
                 <li>
                     <a class="waves-effect waves-dark" th:href="${home + 'budget/list_budget'}">
-                        <i class="fas fa-ticket-alt"></i>
+                        <i class="fas fa-money-bill-wave-alt"></i>
                         <span class="hide-menu">My Budget</span>
                     </a>
+                </li>
+                <li class="nav-small-cap">--- Deepenses</li>
+                <li>
+                    <a class="has-arrow waves-effect waves-dark" href="javascript:void(0)">
+                        <i class="fas fa-wallet"></i>
+                        <span class="hide-menu">Depenses</span>
+                    </a>
+                    <ul class="collapse">
+                        <li><a class="waves-effect waves-dark"  th:href="${home + 'depenseLead/my-depense-lead'}">Depense Lead</a></li>
+                        <li><a class="waves-effect waves-dark"  th:href="${home + 'depenseTicket/my-depense-ticket'}">Depense Ticket</a></li>
+                    </ul>
                 </li>
                 <li class="nav-small-cap">--- Leads</li>
                 <li>

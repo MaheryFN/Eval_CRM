@@ -505,3 +505,43 @@ CREATE TABLE IF NOT EXISTS `google_drive_file` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+
+CREATE TABLE IF NOT EXISTS `budget` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `customer_id` int UNSIGNED NOT NULL,
+    `montant` decimal(10,2) DEFAULT 0,
+    `date_ajout` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fk_budget_customer` (`customer_id`),
+    CONSTRAINT `fk_budget_customer` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE IF NOT EXISTS `depense_lead` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `lead_id` int unsigned NOT NULL,
+    `montant` decimal(10,2) DEFAULT 0,
+    `date_ajout` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fk_depense_lead` (`lead_id`),
+    CONSTRAINT `fk_depense_lead` FOREIGN KEY (`lead_id`) REFERENCES `trigger_lead` (`lead_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE IF NOT EXISTS `depense_ticket` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `ticket_id` int unsigned NOT NULL,
+    `montant` decimal(10,2) DEFAULT 0,
+    `date_ajout` datetime DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fk_depense_ticket` (`ticket_id`),
+    CONSTRAINT `fk_depense_ticket` FOREIGN KEY (`ticket_id`) REFERENCES `trigger_ticket` (`ticket_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `taux` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
+    `pourcentage` decimal(5,2) DEFAULT 0,
+    `date_ajout` datetime DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

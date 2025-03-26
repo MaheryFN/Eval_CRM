@@ -3,7 +3,7 @@ package site.easy.to.build.crm.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "depense_ticket")
@@ -17,7 +17,7 @@ public class DepenseTicket {
     private BigDecimal montant;
     
     @Column(name = "date_ajout")
-    private LocalDate dateAjout;
+    private LocalDateTime dateAjout;
     
     @ManyToOne
     @JoinColumn(name = "ticket_id")
@@ -25,13 +25,13 @@ public class DepenseTicket {
     
     public DepenseTicket() {}
     
-    public DepenseTicket(BigDecimal montant, LocalDate dateAjout, Ticket ticket) {
+    public DepenseTicket(BigDecimal montant, LocalDateTime dateAjout, Ticket ticket) {
         this.montant = montant;
         this.dateAjout = dateAjout;
         this.ticket = ticket;
     }
     
-    public DepenseTicket(Integer depenseTicketId, BigDecimal montant, LocalDate dateAjout, Ticket ticket) {
+    public DepenseTicket(Integer depenseTicketId, BigDecimal montant, LocalDateTime dateAjout, Ticket ticket) {
         this.depenseTicketId = depenseTicketId;
         this.montant = montant;
         this.dateAjout = dateAjout;
@@ -54,11 +54,11 @@ public class DepenseTicket {
         this.montant = montant;
     }
     
-    public LocalDate getDateAjout() {
+    public LocalDateTime getDateAjout() {
         return dateAjout;
     }
     
-    public void setDateAjout(LocalDate dateAjout) {
+    public void setDateAjout(LocalDateTime dateAjout) {
         this.dateAjout = dateAjout;
     }
     

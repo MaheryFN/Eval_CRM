@@ -6,6 +6,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import site.easy.to.build.crm.entity.DepenseTicket;
 
+import java.util.List;
+
 @Repository
 public interface DepenseTicketRepository extends JpaRepository<DepenseTicket, Integer> {
     public DepenseTicket findByDepenseTicketId(int id);
@@ -17,4 +19,5 @@ public interface DepenseTicketRepository extends JpaRepository<DepenseTicket, In
     
     @Query(value = "select sum(montant) from depense_ticket where ticket_id = :ticketId", nativeQuery = true)
     public Double getTotalMontantTicketId(@Param("ticketId") int ticketId);
+    
 }
